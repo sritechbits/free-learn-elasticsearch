@@ -72,3 +72,6 @@ to create a sandbox without even using docker]
 
 Back to the Sandbox creation , Let's add git to it 
 ``` apk add git ```
+
+
+https://bobbyhadz.com/blog/support-for-password-authentication-was-removed-on-august
