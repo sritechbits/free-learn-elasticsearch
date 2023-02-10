@@ -41,3 +41,34 @@ dd             grep           ls             ping           sh
 df             gunzip         lzop           ping6          sleep
 dmesg          gzip           makemime       pipe_progress  stat
 ```
+
+
+Next Step is to be able to access github from the container , where we will configure github account 
+and will work won it . 
+
+To Add the git functionality you should be able to find package from this url : https://pkgs.alpinelinux.org/packages
+
+
+Run this in host [ you docker identifies architecture ]
+```
+> docker info --format '{{ .OSType }}/{{ .Architecture }}'
+```
+
+Run this in sandbox shell 
+```
+arch
+```
+
+
+
+# Go Deep [ World Before Docker => Docker was always there people just din't know the know ]
+Later If time permits I will show you , how for our simple usecase
+[ we could have just used 
+```namespace (new space / scope & closure formed env  🥇 for nodejs people ) and cgroups ( resource manager RAM , SPACE , MEMORY) ``` 
+to create a sandbox without even using docker]
+
+
+
+
+Back to the Sandbox creation , Let's add git to it 
+``` apk add git ```
