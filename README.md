@@ -75,3 +75,16 @@ Back to the Sandbox creation , Let's add git to it
 
 
 https://bobbyhadz.com/blog/support-for-password-authentication-was-removed-on-august
+
+
+
+``` 
+VS CODE allows you to connect to your container , access the file system it makes you feel like your host is your container 
+
+```
+https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack
+https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
+
+Once there are installed 
+
+Whole Env would look like this 
