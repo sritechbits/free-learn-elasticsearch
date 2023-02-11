@@ -25,7 +25,6 @@ Write and execute a query that searches across multiple clusters
 Write and execute a search that utilizes a runtime field
 
 
-
 Developing Search Applications
 
 Highlight the search terms in the response of a query
