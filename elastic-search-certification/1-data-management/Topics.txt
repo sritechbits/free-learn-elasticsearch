@@ -15,8 +15,6 @@ Data Management 👍
 
 
 1. Define an index that satisfies a given set of requirements
-   This Begs the Question what is an index : 
-   https://www.elastic.co/blog/what-is-an-elasticsearch-index
-   https://aravind.dev/everything-index-elastic/
-   
+  
+
 

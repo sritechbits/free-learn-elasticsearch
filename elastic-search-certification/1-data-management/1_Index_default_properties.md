@@ -1,5 +1,14 @@
 First Let's Create an Index and Try to Understand the basic default properties it comes with then we will modify it. 
 
+```
+An index is like a ‘database' in a relational database. It has a mapping which defines multiple types.
+An index is a logical namespace which maps to one or more primary shards and can have zero or more replica shards.
+```
+
+ This Begs the Question what is an index : 
+   https://www.elastic.co/blog/what-is-an-elasticsearch-index
+   https://aravind.dev/everything-index-elastic/
+
 [ Open this Url Before Moving Forward ]
 https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html
 Index Modules are modules created per index and control all aspects related to an index.
