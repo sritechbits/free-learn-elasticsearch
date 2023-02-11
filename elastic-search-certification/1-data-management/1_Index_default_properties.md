@@ -52,25 +52,25 @@ index.hidden
 # Settings in other index modules
 Other index settings are available in index modules:
 ```
-Analysis
+#Analysis
 Settings to define analyzers, tokenizers, token filters and character filters.
-Index shard allocation
+#Index shard allocation
 Control over where, when, and how shards are allocated to nodes.
-Mapping
+#Mapping
 Enable or disable dynamic mapping for an index.
-Merging
+#Merging
 Control over how shards are merged by the background merge process.
-Similarities
+#Similarities
 Configure custom similarity settings to customize how search results are scored.
-Slowlog
+#Slowlog
 Control over how slow queries and fetch requests are logged.
-Store
+#Store
 Configure the type of filesystem used to access shard data.
-Translog
+#Translog
 Control over the transaction log and background flush operations.
-History retention
+#History retention
 Control over the retention of a history of operations in the index.
-Indexing pressure
+#Indexing pressure
 Configure indexing back pressure limit
 ```
 
