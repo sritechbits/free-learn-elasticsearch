@@ -1,171 +1,44 @@
-First Let's Create an Index and Try to Understand the basic default properties it comes with then we will modify it. 
+URL : https://www.elastic.co/training/elastic-certified-engineer-exam
+
+Topics
+Elastic Certified Engineer exam is currently on version 8.1.
+
+ 
+
+Data Management 👍
+
+1. Define an index that satisfies a given set of requirements
+2. Define and use an index template for a given pattern that satisfies a given set of requirements
+3. Define and use a dynamic template that satisfies a given set of requirements
+4. Define an Index Lifecycle Management policy for a time-series index
+5. Define an index template that creates a new data stream
+
+
+# Define an index that satisfies a given set of requirements
+
+Ques : Complete the assignment and explain in what scenario you will use it ?
+   1. create an index with 10,15,20 primary shards and compare it with default behaviour 
+   2. create an index with more than 1 replica shard
+   3. create an index which rejects the document that doesn't follow the defined schema while creation. 
+   4. create an index which has refresh rate of 100seconds ( when you don't want near real time search ) and compare it with default behaviour
+   5. 
 
 ```
-An index is like a ‘database' in a relational database. It has a mapping which defines multiple types.
-An index is a logical namespace which maps to one or more primary shards and can have zero or more replica shards.
-```
-
-# Articles to Read [ Open this Url Before Moving Forward ]
-
-   https://www.elastic.co/blog/what-is-an-elasticsearch-index
-
-   https://aravind.dev/everything-index-elastic/
-
-   https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html
-
-Index Modules are modules created per index and control all aspects related to an index.
-
-
-# Index Settings : 
-Index level settings can be set per-index. 
-Settings may be:
-
-# static
-They can only be set at index creation time / may be on a closed index.
-```
-index.number_of_shards
-index.number_of_routing_shards
-index.codec
-
-```
-
-# dynamic
-They can be changed on a live index using the update-index-settings API.
-Changing static or dynamic index settings on a closed index could result in incorrect settings that are impossible to rectify without deleting and recreating the index.
-
-```
-index.number_of_replicas
-index.auto_expand_replicas
-index.search.idle.after
-index.refresh_interval
-index.max_result_window
-index.max_inner_result_window
-index.max_rescore_window
-index.max_docvalue_fields_search
-index.max_script_fields
-index.max_ngram_diff
-index.max_shingle_diff
-index.max_refresh_listeners
-index.analyze.max_token_count
-index.highlight.max_analyzed_offset
-index.max_terms_count
-index.max_regex_length
-index.query.default_field
-index.routing.allocation.enable
-index.routing.rebalance.enable
-index.gc_deletes
-index.default_pipeline
-index.final_pipeline
-index.hidden
-
-```
-
-
-# Settings in other index modules
-Other index settings are available in index modules:
-```
-# Analysis
-Settings to define analyzers, tokenizers, token filters and character filters.
-
-# Index shard allocation
-Control over where, when, and how shards are allocated to nodes.
-
-# Mapping
-Enable or disable dynamic mapping for an index.
-
-# Merging
-Control over how shards are merged by the background merge process.
-
-# Similarities
-Configure custom similarity settings to customize how search results are scored.
-
-# Slowlog
-Control over how slow queries and fetch requests are logged.
-
-# Store
-Configure the type of filesystem used to access shard data.
-
-# Translog
-Control over the transaction log and background flush operations.
-
-# History retention
-Control over the retention of a history of operations in the index.
-
-# Indexing pressure
-Configure indexing back pressure limit
-```
-
-
-# Fetching all indices in cluster
-```
-GET _cat/indices?v
-```
-
-
-# Create a new Index 
-```
-PUT index1
-
-response : 
+PUT index10 
 {
-  "acknowledged": true,
-  "shards_acknowledged": true,
-  "index": "index1"
-}
-
-```
-
-# Index Settings 
-
-```
-GET index1/_settings
-
-response :
-{
-  "index1": {
-    "settings": {
-      "index": {
-        "routing": {
-          "allocation": {
-            "include": {
-              "_tier_preference": "data_content"
-            }
-          }
-        },
-        "number_of_shards": "1",
-        "provided_name": "index1",
-        "creation_date": "1676098344109",
-        "number_of_replicas": "1",
-        "uuid": "mptK9UqbR9mpM4N1Haz0Qg",
-        "version": {
-          "created": "8050299"
-        }
-      }
-    }
+  "settings": {
+    "number_of_shards": 10
   }
 }
 
-conclusion : Index has 1 primary and 1 replica shard => total 2 shards [ note : shard count can be decided during index creation time. ]
+check stats after creation : 
 
-```
+GET index10/_stats
 
-
-
-
-# Index Mapping
-
-
-
-# Index stats 
-
-```
-GET index1/_stats
-
-response : 
 {
   "_shards": {
-    "total": 2,
-    "successful": 1,
+    "total": 20,
+    "successful": 10,
     "failed": 0
   },
   "_all": {
@@ -175,11 +48,11 @@ response :
         "deleted": 0
       },
       "shard_stats": {
-        "total_count": 1
+        "total_count": 10
       },
       "store": {
-        "size_in_bytes": 225,
-        "total_data_set_size_in_bytes": 225,
+        "size_in_bytes": 2250,
+        "total_data_set_size_in_bytes": 2250,
         "reserved_in_bytes": 0
       },
       "indexing": {
@@ -228,12 +101,12 @@ response :
         "total_size_in_bytes": 0,
         "total_stopped_time_in_millis": 0,
         "total_throttled_time_in_millis": 0,
-        "total_auto_throttle_in_bytes": 20971520
+        "total_auto_throttle_in_bytes": 209715200
       },
       "refresh": {
-        "total": 2,
+        "total": 20,
         "total_time_in_millis": 0,
-        "external_total": 2,
+        "external_total": 20,
         "external_total_time_in_millis": 0,
         "listeners": 0
       },
@@ -244,7 +117,7 @@ response :
       },
       "warmer": {
         "current": 0,
-        "total": 1,
+        "total": 10,
         "total_time_in_millis": 0
       },
       "query_cache": {
@@ -280,10 +153,10 @@ response :
       },
       "translog": {
         "operations": 0,
-        "size_in_bytes": 55,
+        "size_in_bytes": 550,
         "uncommitted_operations": 0,
-        "uncommitted_size_in_bytes": 55,
-        "earliest_last_modified_age": 66793
+        "uncommitted_size_in_bytes": 550,
+        "earliest_last_modified_age": 1276
       },
       "request_cache": {
         "memory_size_in_bytes": 0,
@@ -310,11 +183,11 @@ response :
         "deleted": 0
       },
       "shard_stats": {
-        "total_count": 1
+        "total_count": 10
       },
       "store": {
-        "size_in_bytes": 225,
-        "total_data_set_size_in_bytes": 225,
+        "size_in_bytes": 2250,
+        "total_data_set_size_in_bytes": 2250,
         "reserved_in_bytes": 0
       },
       "indexing": {
@@ -363,12 +236,12 @@ response :
         "total_size_in_bytes": 0,
         "total_stopped_time_in_millis": 0,
         "total_throttled_time_in_millis": 0,
-        "total_auto_throttle_in_bytes": 20971520
+        "total_auto_throttle_in_bytes": 209715200
       },
       "refresh": {
-        "total": 2,
+        "total": 20,
         "total_time_in_millis": 0,
-        "external_total": 2,
+        "external_total": 20,
         "external_total_time_in_millis": 0,
         "listeners": 0
       },
@@ -379,7 +252,7 @@ response :
       },
       "warmer": {
         "current": 0,
-        "total": 1,
+        "total": 10,
         "total_time_in_millis": 0
       },
       "query_cache": {
@@ -415,10 +288,10 @@ response :
       },
       "translog": {
         "operations": 0,
-        "size_in_bytes": 55,
+        "size_in_bytes": 550,
         "uncommitted_operations": 0,
-        "uncommitted_size_in_bytes": 55,
-        "earliest_last_modified_age": 66793
+        "uncommitted_size_in_bytes": 550,
+        "earliest_last_modified_age": 1276
       },
       "request_cache": {
         "memory_size_in_bytes": 0,
@@ -441,8 +314,8 @@ response :
     }
   },
   "indices": {
-    "index1": {
-      "uuid": "mptK9UqbR9mpM4N1Haz0Qg",
+    "index10": {
+      "uuid": "5nKZuD-4RNCpwIbRF7eFww",
       "health": "yellow",
       "status": "open",
       "primaries": {
@@ -451,11 +324,11 @@ response :
           "deleted": 0
         },
         "shard_stats": {
-          "total_count": 1
+          "total_count": 10
         },
         "store": {
-          "size_in_bytes": 225,
-          "total_data_set_size_in_bytes": 225,
+          "size_in_bytes": 2250,
+          "total_data_set_size_in_bytes": 2250,
           "reserved_in_bytes": 0
         },
         "indexing": {
@@ -504,12 +377,12 @@ response :
           "total_size_in_bytes": 0,
           "total_stopped_time_in_millis": 0,
           "total_throttled_time_in_millis": 0,
-          "total_auto_throttle_in_bytes": 20971520
+          "total_auto_throttle_in_bytes": 209715200
         },
         "refresh": {
-          "total": 2,
+          "total": 20,
           "total_time_in_millis": 0,
-          "external_total": 2,
+          "external_total": 20,
           "external_total_time_in_millis": 0,
           "listeners": 0
         },
@@ -520,7 +393,7 @@ response :
         },
         "warmer": {
           "current": 0,
-          "total": 1,
+          "total": 10,
           "total_time_in_millis": 0
         },
         "query_cache": {
@@ -556,10 +429,10 @@ response :
         },
         "translog": {
           "operations": 0,
-          "size_in_bytes": 55,
+          "size_in_bytes": 550,
           "uncommitted_operations": 0,
-          "uncommitted_size_in_bytes": 55,
-          "earliest_last_modified_age": 66793
+          "uncommitted_size_in_bytes": 550,
+          "earliest_last_modified_age": 1276
         },
         "request_cache": {
           "memory_size_in_bytes": 0,
@@ -586,11 +459,11 @@ response :
           "deleted": 0
         },
         "shard_stats": {
-          "total_count": 1
+          "total_count": 10
         },
         "store": {
-          "size_in_bytes": 225,
-          "total_data_set_size_in_bytes": 225,
+          "size_in_bytes": 2250,
+          "total_data_set_size_in_bytes": 2250,
           "reserved_in_bytes": 0
         },
         "indexing": {
@@ -639,12 +512,12 @@ response :
           "total_size_in_bytes": 0,
           "total_stopped_time_in_millis": 0,
           "total_throttled_time_in_millis": 0,
-          "total_auto_throttle_in_bytes": 20971520
+          "total_auto_throttle_in_bytes": 209715200
         },
         "refresh": {
-          "total": 2,
+          "total": 20,
           "total_time_in_millis": 0,
-          "external_total": 2,
+          "external_total": 20,
           "external_total_time_in_millis": 0,
           "listeners": 0
         },
@@ -655,7 +528,7 @@ response :
         },
         "warmer": {
           "current": 0,
-          "total": 1,
+          "total": 10,
           "total_time_in_millis": 0
         },
         "query_cache": {
@@ -691,10 +564,10 @@ response :
         },
         "translog": {
           "operations": 0,
-          "size_in_bytes": 55,
+          "size_in_bytes": 550,
           "uncommitted_operations": 0,
-          "uncommitted_size_in_bytes": 55,
-          "earliest_last_modified_age": 66793
+          "uncommitted_size_in_bytes": 550,
+          "earliest_last_modified_age": 1276
         },
         "request_cache": {
           "memory_size_in_bytes": 0,
@@ -719,5 +592,50 @@ response :
   }
 }
 
+
+```
+
+
+
+
+```
+GET index10/_settings
+
+response : 
+{
+  "index10": {
+    "settings": {
+      "index": {
+        "routing": {
+          "allocation": {
+            "include": {
+              "_tier_preference": "data_content"
+            }
+          }
+        },
+        "number_of_shards": "10",
+        "provided_name": "index10",
+        "creation_date": "1676189076369",
+        "number_of_replicas": "2",
+        "uuid": "p0Cgva6cTQ-vnJfD_A26-g",
+        "version": {
+          "created": "8050299"
+        }
+      }
+    }
+  }
+}
+
+```
+
+
+```
+PUT index10 
+{
+  "settings": {
+    "number_of_shards": 10,
+    "number_of_replicas": 2
+  }
+}
 
 ```
